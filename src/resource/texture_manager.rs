@@ -165,11 +165,11 @@ impl TextureManager {
     ///
     /// If a texture with same name exists, nothing is created and the old texture is returned.
     pub fn add_image(&mut self, dynamic_image: DynamicImage, name: &str) -> Rc<Texture> {
-        self.textures
-            .entry(name.to_string())
-            .or_insert_with(|| TextureManager::load_texture_into_context(dynamic_image).unwrap())
-            .0
-            .clone()
+        self.textures.insert(
+            name.to_string(),
+            TextureManager::load_texture_into_context(dynamic_image).unwrap(),
+        );
+        self.textures.get(name).unwrap().0.clone()
     }
 
     /// Allocates a new texture and tries to decode it from bytes array
